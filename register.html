@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mobile-E-commerce</title>
+    <link rel="stylesheet" href="css/all.css" />
+    <!-- ? bootStrap-link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+    <!-- ? our css files -->
+    <link rel="stylesheet" href="css/all.css" />
+    <link rel="stylesheet" href="css/register.css" />
+  </head>
+  <body>
+    <div class="container">
+   
+
+          <div class="auth sign-up w-50 mx-auto mt-5 p-3 rounded-3">
+        <header>
+          <h2 class="main-title text-capitalize text-center">signup</h2>
+        </header>
+
+        <div class="mb-3 mt-4 input">
+          <input
+          
+            type="text"
+            class="form-control rounded-2 shadow-none"
+            placeholder="please enter your Name "
+            id="name-input"
+          />
+          <!-- <label for="name-input">Enter your name</label> -->
+          <p class="text-danger d-none">please enter A valid Name!</p>
+        </div>
+        <div class="mb-3 input">
+          <input
+            required
+            type="email"
+            class="form-control rounded-2 shadow-none"
+            placeholder="Enter your Email "
+            id="email-input"
+          />
+          <!-- <label for="email-input">Enter your Email</label> -->
+          <p class="text-danger d-none">please enter A Valid Email!</p>
+        </div>
+        <div class="input">
+          <input
+           
+            type="password"
+            class="form-control rounded-2 shadow-none "
+            placeholder="Enter password "
+            id="password-input"
+          />
+          <!-- <label for="password-input">Enter password</label> -->
+          <p class="text-danger d-none">
+            invalid password! password must be at least 8 characters contain at
+            least lowercase letter and uppercase letter and symbol!
+          </p>
+        </div>
+
+        <div id="radiosContainer" class="d-flex mt-3 ps-1  align-items-center">
+            <SPan class="me-2">ROLE :</SPan>
+        <div class=" d-flex align-items-center mt-1 me-3">
+            
+          <input
+            required
+            class="me-1 "
+            type="radio"
+            name="user"
+            id="role"
+            value="user"
+          />
+          <label class="mb-1" for="radioDefault1">
+            user
+          </label>
+        </div>
+        <div class=" d-flex align-items-center mt-1">
+            
+          <input
+            required
+            class="me-1"
+            type="radio"
+            name="user"
+            id="role"
+            value="seller"
+          />
+          <label class="mb-1" for="radioDefault1">
+            seller
+          </label>
+        </div>
+    </div>
+    <p class="radiosErrMsg text-danger d-inline-block mb-0 d-none" > please select your role!</p>
+
+        <div class="message">
+         
+          <p class="error-message text-danger mb-0 text-center d-none ">
+               
+          </p>
+        </div>
+        <a class="text-decoration-none" href="#"
+          ><button id="sign-up" type="" class="btn btn-outline-info w-100 mt-2 p-2">
+            signup
+          </button></a
+        >
+       
+      </div>
+   
+    </div>
+
+    <!-- ? ----------------?BOOTSTRAP-JS?------------ -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+    <!-- ? ----------------?our js file?------------ -->
+    <script src="js/Register.js"></script>
+  </body>
+</html>

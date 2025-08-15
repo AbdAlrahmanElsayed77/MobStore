@@ -1,0 +1,23 @@
+
+body{
+    background-color: #f9f9f9;
+}
+
+span.badge{
+    position: fixed;
+    /* top: 3%; */
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    transition: top 0.4s;
+}
+
+main{
+    margin-top: 46px;
+}
+#products{
+    
+    padding-inline: 5rem !important;
+   
+}
