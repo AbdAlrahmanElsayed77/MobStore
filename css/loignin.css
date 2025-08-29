@@ -1,94 +1,67 @@
+ body {
+      background: #f5f7fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
 
- p{
-    font-size: 12px;
-    padding-left:10px ;
-    margin-top: 2px;
-    margin-bottom: 0px;
-}
-.alert{
-    padding: 5px !important;
-    color: rgb(70, 70, 70) !important;
-}
+    .login-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 2rem;
+      border-radius: 15px;
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
 
+    .login-card h2 {
+      color: #008ECC;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
 
+    .form-control {
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 15px;
+    }
 
+    #Login {
+      width: 100%;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      background-color: #008ECC;
+      color: #fff;
+      transition: 0.3s;
+      margin-top: 15px;
+    }
+    #Login:hover {
+      background-color: #0074ad;
+    }
 
+    #Sign-Up {
+      margin-top: 1rem;
+      text-align: center;
+      font-size: 14px;
+    }
+    #Sign-Up a {
+      color: #008ECC;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    #Sign-Up a:hover {
+      text-decoration: underline;
+    }
 
-.auth{
-     background-color: #f5f6fa;
-    border: 2px solid #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-.form-control:focus {
-    border: 2px solid #ccc;
-    background-color: transparent;
-}
-/* .form-control+label{
-    padding:0 5px;
-    
-      transform: translateY(-215%) ,  translateX(150%);;
-      transform: translate(15% , -215%);
-   background-color: #f5f6fa;
-   z-index: 55555;
-   color: black;
-} */
-div.input{
-    position: relative;
-}
-/* .form-control + label{
-    font-size: 12px;
-    color: grey;
-    padding-left: 15px;
-    transform: translateY(-180%);
-   
-   
-    transition: 0.4s top ease-in-out;
-      pointer-events: none;
-} */
-
-#sign-up:hover , #Login:hover{
-  color: #fff;
-}
-.auth header > h2{
-  color: #0dcaf0;
-}
- 
-input::placeholder {
-  color: gray;
-  font-style: italic;
-  font-size: 12px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    .error-message {
+      font-size: 14px;
+      margin-top: 10px;
+      color: red;
+      display: none;
+    }

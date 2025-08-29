@@ -1,198 +1,158 @@
-export function initProductPage(productsArray) {
-  const productsContainer = document.querySelector(".row");
-  const badgeElement = document.querySelector("span.badge");
+document.body.style.paddingTop = document.querySelector('.gtml-navbar').offsetHeight + 'px';
+const productsContainer = document.querySelector(".row.allproducts");
+const badgeElement = document.querySelector("#alertMsg");
+const navCartIcon = document.querySelector("nav .gtml-cart-icon");
+const cartNumWrapper = document.querySelector(".gtml-cart-icon span");
+const productsAnchor = document.querySelectorAll(".gtml-nav-menu li")[1];
+const headerText = document.querySelector(".headertext");
 
-  let ProductsAddedToCart = JSON.parse(localStorage.getItem("cartProducts")) || [];
-  let myFragment = "";
+let allProducts = JSON.parse(localStorage.getItem("AllProductsArr")) || [];
+let iphoneProducts = [];
+let oppoProducts = [];
+let redmiProducts = [];
 
-  // Display products
-  function displayAllProducts(arr) {
-    myFragment = "";
-    arr.forEach(product => {
-      myFragment += `
-        <div class="col ">
-          <div class="card product overflow-hidden rounded-4" data-productID="${product.id}">
-            <div class="image-wrapper position-relative">
-              <img src="${product.image}" alt="">
-              <div class="position-absolute icon-wrapper">
-                <div class="cart-wrapper d-flex justify-content-center align-items-center">
-                  <i class="fa-solid fa-cart-shopping m-0"></i>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-3">
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="product-name text-black h6">${product.name}</span>
-                <div class="product-rating d-flex align-items-center">
-                  <i class="fa-solid fa-star "></i>
-                  <span>3.5</span>
-                </div>
-              </div>
-              <div class="d-flex justify-content-between align-items-center">
-                <h5 class="product-price text-black mb-0">${product.price}</h5>
-                <span class="text-muted">3.5k Ratings</span>
+allProducts.forEach(product => {
+  if (product.category === "iphone") {
+    iphoneProducts.push(product);
+  } else if (product.category === "oppo") {
+    oppoProducts.push(product);
+  } else if (product.category === "redmi") {
+    redmiProducts.push(product);
+  }
+});
+
+
+
+if (localStorage.getItem("ProductDetails")) {
+  localStorage.removeItem("ProductDetails");
+}
+
+let myFragment = "";
+let allProductsArray = JSON.parse(localStorage.getItem("AllProductsArr")) || [];
+let categoryName = JSON.parse(localStorage.getItem("categoryName")) || "";
+let loggedInUserID = JSON.parse(localStorage.getItem("userID"));
+let allAccounts = JSON.parse(localStorage.getItem("Accounts")) || [];
+console.log(loggedInUserID);
+
+let loggedInUserObj = allAccounts.find(acc => acc.id === loggedInUserID) || { cart: [] };
+let numOfCartItems = loggedInUserObj.cart.length; // عدد العناصر المختلفة
+
+function displayAllProducts(arr) {
+  myFragment = "";
+  arr.forEach(product => {
+    let stockBadge = product.stock > 0
+      ? `<span class="badge text-bg-success">Available</span>`
+      : `<span class="badge text-bg-danger">Out of Stock</span>`;
+
+    myFragment += `
+      <div class="col">
+        <div class="card product h-100 overflow-hidden rounded-4" data-productID="${product.id}">
+          <div class="image-wrapper h-100 position-relative">
+            <img class="h-100 object-fit-cover" src="${product.image}" alt="">
+            <div class="position-absolute icon-wrapper">
+              <div class="cart-wrapper d-flex justify-content-center align-items-center">
+                <i class="fa-solid fa-cart-shopping m-0"></i>
               </div>
             </div>
           </div>
-        </div>`;
-    });
-    productsContainer.innerHTML = myFragment;
+          <div class="card-body p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="product-name text-black mb-2 h4">${product.name}</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="product-price mb-0">$ ${product.price}</h5>
+              ${stockBadge}
+            </div>
+          </div>
+        </div>
+      </div>`;
+  });
+  productsContainer.innerHTML = myFragment.length > 0 ? myFragment : `<p class="h5 mt-3 ps-3">No products to display yet!</p>`;
+}
+
+if (categoryName.length > 0) {
+  if (categoryName === "iphone") {
+    headerText.querySelector("span").innerHTML = "iphone";
+    displayAllProducts(iphoneProducts);
+  } else if (categoryName === "oppo") {
+    headerText.querySelector("span").innerHTML = "oppo";
+    displayAllProducts(oppoProducts);
+  } else if (categoryName === "redmi") {
+    headerText.querySelector("span").innerHTML = "redmi";
+    displayAllProducts(redmiProducts);
   }
+} else {
+  displayAllProducts(allProducts);
+}
 
-  displayAllProducts(productsArray);
+productsAnchor.addEventListener("click", function (e) {
+  localStorage.removeItem("categoryName");
+});
 
-  const navCartIcon = document.querySelector("nav .nav-cart i");
-  const CartNumWrapper = document.querySelector(".cart-mum span");
-  CartNumWrapper.innerHTML = ProductsAddedToCart.length.toString();
-  let numOfCartItems = parseInt(CartNumWrapper.innerHTML);
+cartNumWrapper.innerHTML = numOfCartItems.toString();
 
-  function UpdateCardCartIcon(cartItemsArr) {
-    let homeProducts = Array.from(document.querySelectorAll(".col .card"));
-    cartItemsArr.forEach(cartItem => {
-      homeProducts.forEach(product => {
-        if (product.getAttribute("data-productID") === cartItem.id) {
-          product.querySelector(".cart-wrapper i").style.color = "#0dcaf0";
-        }
-      });
-    });
-  }
-
-  function handleBadge(message) {
-    badgeElement.lastElementChild.innerHTML = message;
-    badgeElement.style.top = "3%";
-    setTimeout(() => {
-      badgeElement.style.top = "-20%";
-    }, 3000);
-  }
-
-  UpdateCardCartIcon(ProductsAddedToCart);
-
-  // Click event for products
-  productsContainer.addEventListener("click", function (e) {
-    let targetProductID = e.target.closest("div.col")?.querySelector(".card").getAttribute("data-productID");
-    if (!targetProductID) return;
-
-    let targetProductObj = productsArray.find(p => p.id === targetProductID);
-
-    if (
-      e.target.parentElement.classList.contains("cart-wrapper") ||
-      e.target.classList.contains("cart-wrapper") ||
-      e.target.classList.contains("fa-cart-shopping")
-    ) {
-      e.stopPropagation();
-
-      let exists = ProductsAddedToCart.some(item => item.id === targetProductID);
-      if (exists) {
-        handleBadge("This product is already in your cart");
-      } else {
-        ProductsAddedToCart.push(targetProductObj);
-        numOfCartItems++;
-        CartNumWrapper.innerHTML = numOfCartItems.toString();
-        handleBadge("Added to cart");
-        localStorage.setItem("cartProducts", JSON.stringify(ProductsAddedToCart));
-        UpdateCardCartIcon(ProductsAddedToCart);
+function updateCardCartIcon(cartItemsArr) {
+  let displayedProducts = Array.from(document.querySelectorAll(".col .card"));
+  cartItemsArr.forEach(cartItem => {
+    displayedProducts.forEach(product => {
+      if (product.getAttribute("data-productID") === cartItem.id) {
+        product.querySelector(".cart-wrapper i").style.color = "#0dcaf0";
       }
-    } else {
-      localStorage.setItem("ProductDetails", JSON.stringify(targetProductObj));
-      window.location.href = "/productDetails.html";
+    });
+  });
+}
+
+function handleBadge(message) {
+  badgeElement.lastElementChild.innerHTML = message;
+  badgeElement.style.top = "3%";
+  setTimeout(() => {
+    badgeElement.style.top = "-20%";
+  }, 3000);
+}
+
+updateCardCartIcon(loggedInUserObj.cart);
+
+productsContainer.addEventListener("click", function (e) {
+  let targetProductID = e.target.closest("div.col")?.querySelector(".card").getAttribute("data-productID");
+  if (!targetProductID) return;
+
+  let targetProductObj = allProductsArray.find(p => p.id === targetProductID);
+
+  if (
+    e.target.parentElement.classList.contains("cart-wrapper") ||
+    e.target.classList.contains("cart-wrapper") ||
+    e.target.classList.contains("fa-cart-shopping")
+  ) {
+    e.stopPropagation();
+
+    if (!loggedInUserID) {
+      handleBadge("Please login first");
+      return;
     }
-  });
 
-  navCartIcon.addEventListener("click", function () {
-    window.location.href = "/cart.html";
-  });
-}
+    if (targetProductObj.stock <= 0) {
+      handleBadge("This product is out of stock");
+      return;
+    }
 
-let AllProductsArr =[
-{
- "id": "p1",
- "name": "iphone15",
- "description": "Ergonomic wireless mouse with USB receiver.",
- "price": 10000,
- "image": "Assets/Images/iphones/inhanceIMGES/2.png",
- "sellerId": "u2",
- "stock": 30,
- "category": "Electronics"
+    let existingItem = loggedInUserObj.cart.find(item => item.id === targetProductID);
+    if (existingItem) {
+      handleBadge("This product is already in your cart");
+    } else {
+      let newItem = { ...targetProductObj, quantity: 1 }; // إضافة quantity
+      loggedInUserObj.cart.push(newItem);
+      numOfCartItems++;
+      cartNumWrapper.innerHTML = numOfCartItems.toString();
+      handleBadge("Added to cart");
+      localStorage.setItem("Accounts", JSON.stringify(allAccounts));
+      updateCardCartIcon(loggedInUserObj.cart);
+    }
+  } else {
+    localStorage.setItem("ProductDetails", JSON.stringify(targetProductObj));
+    window.location.href = "/productDetails.html";
+  }
+});
 
-}
-,{
-    "id": "p2",
- "name": "iphone18",
- "description": "Ergonomic wireless mouse with USB receiver.",
- "price": 15000,
- "image": "Assets/Images/iphones/inhanceIMGES/1.png",
- "sellerId": "u2",
- "stock": 30,
- "category": "Electronics"
-
-}
-,{
-    "id": "p3",
- "name": "iphone12",
- "description": "Ergonomic wireless mouse with USB receiver.",
- "price": 15000,
- "image": "Assets/Images/iphones/inhanceIMGES/2.png",
- "sellerId": "u2",
- "stock": 30,
- "category": "Electronics"
-
-}
-,{
-    "id": "p4",
- "name": "iphone11",
- "description": "Ergonomic wireless mouse with USB receiver.",
- "price": 15000,
- "image": "Assets/Images/iphones/inhanceIMGES/1.png",
- "sellerId": "u2",
- "stock": 30,
- "category": "Electronics"
-
-},
-{
-    "id": "p3",
- "name": "iphone12",
- "description": "Ergonomic wireless mouse with USB receiver.",
- "price": 15000,
- "image": "Assets/Images/iphones/inhanceIMGES/2.png",
- "sellerId": "u2",
- "stock": 30,
- "category": "Electronics"
-
-},
-{
-    "id": "p4",
- "name": "iphone11",
- "description": "Ergonomic wireless mouse with USB receiver.",
- "price": 15000,
- "image": "Assets/Images/iphones/inhanceIMGES/1.png",
- "sellerId": "u2",
- "stock": 30,
- "category": "Electronics"
-
-}
-,
-{
-    "id": "p3",
- "name": "iphone12",
- "description": "Ergonomic wireless mouse with USB receiver.",
- "price": 15000,
- "image": "Assets/Images/iphones/inhanceIMGES/2.png",
- "sellerId": "u2",
- "stock": 30,
- "category": "Electronics"
-
-},
-{
-    "id": "p4",
- "name": "iphone11",
- "description": "Ergonomic wireless mouse with USB receiver.",
- "price": 15000,
- "image": "Assets/Images/iphones/inhanceIMGES/1.png",
- "sellerId": "u2",
- "stock": 30,
- "category": "Electronics"
-
-}
-]
-
-initProductPage(AllProductsArr);
+navCartIcon.addEventListener("click", function () {
+  window.location.href = "/cart.html";
+});

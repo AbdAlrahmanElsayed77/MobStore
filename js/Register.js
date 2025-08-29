@@ -33,25 +33,27 @@ var allRejexs={
 //* ========================= ? functions ? ===================================== 
 //?=====================================> ? ADD FUNCTION ? <=============================================
 
-function addAccount( ){
-    
-   if (isValidInput) {
-    
-    var userAccount={
-        name:nameInputElement.value,
-        email:emailInputElement.value,
-        password:PasswordInputElement.value,
-        role:userRole
-    }
-    
-    allAccounts.push(userAccount)
-    localStorage.setItem("Accounts" , JSON.stringify(allAccounts))
+// Helper function to generate unique ID
+function generateId() {
+  return 'u' + Date.now() + Math.floor(Math.random() * 1000);
+}
+
+// ===========================> ADD FUNCTION <==============================
+function addAccount() {
+  if (isValidInput) {
+    var userAccount = {
+      id: generateId(),   
+      name: nameInputElement.value,
+      email: emailInputElement.value,
+      password: PasswordInputElement.value,
+      role: userRole,
+      cart:[]
+    };
+
+    allAccounts.push(userAccount);
+    localStorage.setItem("Accounts", JSON.stringify(allAccounts));
     console.log(allAccounts);
-   }
-       
-   
-    
-   
+  }
 }
 //?=====================================> ? Isempty inputs FUNCTION ? <=====================================
 function isEmptyInputs(nameInput, emailInput, passwordInput) {

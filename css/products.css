@@ -3,7 +3,7 @@ body{
     background-color: #f9f9f9;
 }
 
-span.badge{
+span#alertMsg{
     position: fixed;
     /* top: 3%; */
     top: -10%;
@@ -13,11 +13,12 @@ span.badge{
     transition: top 0.4s;
 }
 
-main{
+/* main{
     margin-top: 46px;
-}
-#products{
+} */
+section#products{
     
-    padding-inline: 5rem !important;
+    padding-block: 3rem;
+    /* padding-inline: 5rem !important; */
    
 }
