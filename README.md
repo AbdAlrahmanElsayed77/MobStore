@@ -2,17 +2,31 @@
 
 **Front-End Mobile E-commerce Website**  
 This project is built using **HTML, CSS, JavaScript, and Bootstrap**.  
-It simulates an e-commerce store with product details, shopping cart, checkout, and Visa payment.  
-Data is stored locally using **LocalStorage** (no backend).
+It provides a complete e-commerce experience with **Admin and Seller dashboards**, product management, shopping cart, checkout, and Visa payment simulation.  
+All data is stored locally using **LocalStorage** (no backend).
 
 ---
 
 ## ✨ Features
+
+### 🛒 Customer Side
+- 📦 Home & Product pages
 - 📦 Product Details Page  
 - 🛒 Shopping Cart (Add / Remove / Update Items)  
 - 💳 Checkout Process  
 - 💳 Visa Payment Simulation  
 - 🎨 Responsive Design (Bootstrap)  
+
+### 👨‍💼 Admin Dashboard
+- 📊 Sales Analytics Chart  
+- ➕➖ Add / Edit / Delete Products  
+- 👥 Manage Users  
+- 📦 Manage Orders  
+
+### 🛍️ Seller Dashboard
+- 📊 Sales & Stock Analytics Chart  
+- ➕➖ Add / Edit / Delete Products  
+- 📦 Manage Stock & Orders  
 
 ---
 
@@ -31,6 +45,7 @@ As part of the ITI Project, I worked on:
 - Product Details Page  
 - Shopping Cart & Checkout  
 - Visa Payment Integration  
+- Admin Dashboard (charts, product/user/order management)   
 
 ---
 
