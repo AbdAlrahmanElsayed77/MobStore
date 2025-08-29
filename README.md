@@ -41,11 +41,10 @@ All data is stored locally using **LocalStorage** (no backend).
 
 ## 📌 Contribution
 As part of the ITI Project, I worked on:  
-- Admin Section  
+- Admin Dashboard (charts, product/user/order management)  
 - Product Details Page  
 - Shopping Cart & Checkout  
 - Visa Payment Integration  
-- Admin Dashboard (charts, product/user/order management)   
 
 ---
 
