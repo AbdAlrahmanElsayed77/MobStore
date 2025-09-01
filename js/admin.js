@@ -20,7 +20,6 @@ function fileToBase64(file) {
     });
 }
 
-// 🔹 إضافة منتج جديد مع ID أوتوماتيك + Reset بعد الحفظ
 document.getElementById('addProductForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const imageFile = document.getElementById('productImage').files[0];
@@ -36,7 +35,7 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
     }
 
     const product = {
-        id: "p" + Math.floor(Math.random() * 1000), // 🔹 توليد ID تلقائي
+        id: "p" + Math.floor(Math.random() * 1000), 
         name: document.getElementById('productName').value,
         description: document.getElementById('description').value,
         price: parseFloat(document.getElementById('price').value),
@@ -52,13 +51,10 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
 
     bootstrap.Modal.getInstance(document.getElementById('addProductModal')).hide();
     loadProducts();
-
-    // 🔹 مسح كل الحقول بعد الإضافة
     document.getElementById('addProductForm').reset();
     document.getElementById('productImage').value = '';
 });
 
-// 🔹 Edit Product - يملأ البيانات كاملة + الصورة
 function editProduct(id) {
     const AllProductsArr = JSON.parse(localStorage.getItem('AllProductsArr') || '[]');
     const product = AllProductsArr.find(p => p.id === id);
@@ -88,12 +84,8 @@ document.getElementById('editProductForm').addEventListener('submit', async func
     const id = document.getElementById('editProductId').value;
     const imageFile = document.getElementById('editProductImage').files[0];
     let AllProductsArr = JSON.parse(localStorage.getItem('AllProductsArr') || '[]');
-
-    // 🔹 مبدئيًا هات الصورة القديمة من المنتج
     let oldProduct = AllProductsArr.find(p => p.id === id);
     let imageBase64 = oldProduct ? oldProduct.image : '';
-
-    // 🔹 لو المستخدم رفع صورة جديدة نعملها Base64
     if (imageFile) {
         try {
             imageBase64 = await fileToBase64(imageFile);
