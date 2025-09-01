@@ -35,7 +35,7 @@ var allRejexs={
 
 // Helper function to generate unique ID
 function generateId() {
-  return 'u' + Date.now() + Math.floor(Math.random() * 1000);
+  return 'u' +  Math.floor(Math.random() * 1000);
 }
 
 // ===========================> ADD FUNCTION <==============================

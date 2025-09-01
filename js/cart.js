@@ -128,7 +128,7 @@ document.getElementById('checkout-btn').addEventListener('click', () => {
   }
   const paymentMethod = document.getElementById('payment-method').value;
   const order = {
-    id: 'o' + Date.now(),
+    id: 'o' + Math.floor(Math.random() * 10000),
     customerId: userId,
     products: cart.map(i => ({ productId: i.id, quantity: i.quantity || 1 })),
     totalPrice: calculateTotalPrice(),

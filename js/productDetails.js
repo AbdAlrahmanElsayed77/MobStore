@@ -1,3 +1,10 @@
+// Set active link based on current page/section
+const logOutButton = document.getElementById('logout');
+logOutButton.addEventListener('click', () => {
+    window.location.href = "/index.html";
+    localStorage.removeItem("userID")
+    localStorage.removeItem("userRole")
+})
 document.addEventListener("DOMContentLoaded", () => {
   // Get product data from localStorage
   const productData = JSON.parse(localStorage.getItem("ProductDetails"));
