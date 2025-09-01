@@ -127,10 +127,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="addUserForm">
-                        <div class="mb-3">
-                            <label for="userId" class="form-label">ID</label>
-                            <input type="text" class="form-control" id="userId" required>
-                        </div>
+
                         <div class="mb-3">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username" required>
@@ -168,10 +165,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="addProductForm">
-                        <div class="mb-3">
-                            <label for="productId" class="form-label">ID</label>
-                            <input type="text" class="form-control" id="productId" required>
-                        </div>
+                        
                         <div class="mb-3">
                             <label for="productName" class="form-label">Name</label>
                             <input type="text" class="form-control" id="productName" required>
@@ -194,8 +188,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="category" class="form-label">Category</label>
-                            <input type="text" class="form-control" id="category" required>
+                            <select class="form-control" id="category" required>
+                                <option value="">-- Choose Category--</option>
+                                <option value="oppo">oppo</option>
+                                <option value="redmi">redmi</option>
+                                <option value="iphone">iPhone</option>
+                            </select>
                         </div>
+
                         <div class="mb-3">
                             <label for="sellerId" class="form-label">Seller ID</label>
                             <input type="text" class="form-control" id="sellerId" required>
@@ -225,7 +225,8 @@
                         <div class="mb-3">
                             <label for="editProductImage" class="form-label">Product Image</label>
                             <input type="file" class="form-control" id="editProductImage" accept="image/*">
-                            <img id="currentProductImage" src="" alt="Current Image" style="width:100px;height:100px;margin-top:10px;display:none;">
+                            <img id="currentProductImage" src="" alt="Current Image"
+                                style="width:100px;height:100px;margin-top:10px;display:none;">
                         </div>
                         <div class="mb-3">
                             <label for="editDescription" class="form-label">Description</label>

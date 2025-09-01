@@ -1,14 +1,15 @@
 const Role = JSON.parse(localStorage.getItem("userRole"));
 console.log(Role);
-  if (window.location.pathname.includes("admin.html") && Role === "user") {
+if (window.location.pathname.includes("admin.html") && Role === "user") {
     alert("Access Denied! Only Admins allowed.");
     window.location.href = "Home.html"; 
-  }
-  else if(window.location.pathname.includes("admin.html") && Role === "seller")
-  {
+}
+else if(window.location.pathname.includes("admin.html") && Role === "seller")
+{
     alert("Access Denied! Only Admins allowed.");
     window.location.href = "seller.html"; 
-  }
+}
+
 // Helper function to convert file to Base64
 function fileToBase64(file) {
     return new Promise((resolve, reject) => {
@@ -19,12 +20,12 @@ function fileToBase64(file) {
     });
 }
 
-// Modified to handle Base64 image upload
+// 🔹 إضافة منتج جديد مع ID أوتوماتيك + Reset بعد الحفظ
 document.getElementById('addProductForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const imageFile = document.getElementById('productImage').files[0];
-    let imageBase64 = document.getElementById('productImage').value; // Default to selected path
-    
+    let imageBase64 = '';
+
     if (imageFile) {
         try {
             imageBase64 = await fileToBase64(imageFile);
@@ -35,7 +36,7 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
     }
 
     const product = {
-        id: document.getElementById('productId').value,
+        id: "p" + Math.floor(Math.random() * 1000), // 🔹 توليد ID تلقائي
         name: document.getElementById('productName').value,
         description: document.getElementById('description').value,
         price: parseFloat(document.getElementById('price').value),
@@ -44,14 +45,20 @@ document.getElementById('addProductForm').addEventListener('submit', async funct
         sellerId: document.getElementById('sellerId').value,
         image: imageBase64
     };
+
     const AllProductsArr = JSON.parse(localStorage.getItem('AllProductsArr') || '[]');
     AllProductsArr.push(product);
     localStorage.setItem('AllProductsArr', JSON.stringify(AllProductsArr));
+
     bootstrap.Modal.getInstance(document.getElementById('addProductModal')).hide();
     loadProducts();
+
+    // 🔹 مسح كل الحقول بعد الإضافة
+    document.getElementById('addProductForm').reset();
+    document.getElementById('productImage').value = '';
 });
 
-// Modified to handle Base64 image for editing
+// 🔹 Edit Product - يملأ البيانات كاملة + الصورة
 function editProduct(id) {
     const AllProductsArr = JSON.parse(localStorage.getItem('AllProductsArr') || '[]');
     const product = AllProductsArr.find(p => p.id === id);
@@ -67,7 +74,7 @@ function editProduct(id) {
         // عرض الصورة الحالية
         const previewImg = document.getElementById('editImagePreview');
         if (previewImg) {
-            previewImg.src = product.image;
+            previewImg.src = product.image || '';
         }
 
         const modal = new bootstrap.Modal(document.getElementById('editProductModal'));
@@ -75,15 +82,18 @@ function editProduct(id) {
     }
 }
 
-
 // Modified to handle Base64 image updates
 document.getElementById('editProductForm').addEventListener('submit', async function (e) {
     e.preventDefault();
     const id = document.getElementById('editProductId').value;
     const imageFile = document.getElementById('editProductImage').files[0];
     let AllProductsArr = JSON.parse(localStorage.getItem('AllProductsArr') || '[]');
-    let imageBase64 = document.getElementById('editProductImage').value; // Default to selected path
 
+    // 🔹 مبدئيًا هات الصورة القديمة من المنتج
+    let oldProduct = AllProductsArr.find(p => p.id === id);
+    let imageBase64 = oldProduct ? oldProduct.image : '';
+
+    // 🔹 لو المستخدم رفع صورة جديدة نعملها Base64
     if (imageFile) {
         try {
             imageBase64 = await fileToBase64(imageFile);
@@ -103,15 +113,17 @@ document.getElementById('editProductForm').addEventListener('submit', async func
                 stock: parseInt(document.getElementById('editStock').value),
                 category: document.getElementById('editCategory').value,
                 sellerId: document.getElementById('editSellerId').value,
-                image: imageBase64
+                image: imageBase64 // 🔹 إما الصورة القديمة أو الجديدة
             };
         }
         return p;
     });
+
     localStorage.setItem('AllProductsArr', JSON.stringify(AllProductsArr));
     bootstrap.Modal.getInstance(document.getElementById('editProductModal')).hide();
     loadProducts();
 });
+
 
 // Display products with image column
 function loadProducts() {
@@ -216,7 +228,7 @@ document.getElementById('addUserForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
     const user = {
-        id: "u" + Date.now(), // توليد id فريد
+        id: "u" + Math.floor(Math.random() * 1000), // توليد id فريد
         name: document.getElementById('username').value,
         email: document.getElementById('email').value,
         password: document.getElementById('password').value,
@@ -228,13 +240,9 @@ document.getElementById('addUserForm').addEventListener('submit', function (e) {
     Accounts.push(user);
     localStorage.setItem('Accounts', JSON.stringify(Accounts));
 
-    // اقفل المودال
     bootstrap.Modal.getInstance(document.getElementById('addUserModal')).hide();
-
-    // اعادة تحميل الجدول / الداتا
     loadUsers();
 });
-
 
 // Delete User
 function deleteUser(id) {
@@ -336,17 +344,11 @@ function logout() {
 
 // Toggle Sidebar
 function toggleSidebar() {
-    document.querySelector('.sidebar').classList.toggle('active');
-    document.body.classList.toggle('sidebar-open');
-}
-// إخفاء الزر عند فتح السايدبار
-function toggleSidebar() {
     const sidebar = document.querySelector('.sidebar');
     const toggleBtn = document.querySelector('.sidebar-toggle');
     const overlay = document.querySelector('.sidebar-overlay');
     sidebar.classList.toggle('active');
     document.body.classList.toggle('sidebar-open');
-    // إخفاء الزر عند فتح السايدبار
     if (sidebar.classList.contains('active')) {
         toggleBtn.style.display = 'none';
         overlay.style.display = 'block';
@@ -355,7 +357,7 @@ function toggleSidebar() {
         overlay.style.display = 'none';
     }
 }
-// إغلاق السايدبار عند الضغط على رابط
+
 document.querySelectorAll('.sidebar a').forEach(link => {
     link.addEventListener('click', function () {
         if (window.innerWidth <= 768) {
@@ -372,15 +374,11 @@ document.querySelectorAll('.modal').forEach(modal => {
         document.querySelector('.sidebar-toggle').style.display = 'none';
     });
     modal.addEventListener('hidden.bs.modal', function () {
-        // يظهر فقط إذا لم يكن السايدبار مفتوح
         if (!document.querySelector('.sidebar').classList.contains('active')) {
             document.querySelector('.sidebar-toggle').style.display = 'block';
         }
     });
 });
-
-
-
 
 // Initial Load
 showSection('dashboard');
